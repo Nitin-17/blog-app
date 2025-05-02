@@ -11,6 +11,7 @@ import Spinner from "../../../components/ui/spinner";
 import ErrorModal from "../../../components/ui/modal/error-modal";
 import SuccessModal from "../../../components/ui/modal/success-modal";
 import { jwtVerify } from "jose"; // Import JWT verification library
+import { redirect } from "next/navigation";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -84,6 +85,7 @@ const PostEditor = ({ categories, userId }) => {
         setSelectedFile(null);
         setImagePreview(null);
         setStatus(false);
+        redirect("/");
       } else {
         setMessage({
           message: "Failed to save post. Please try again.",

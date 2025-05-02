@@ -7,7 +7,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../store/authSlice";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import Spinner from "../components/ui/spinner";
 import SendOTP from "../components/ui/forms/send-otp-form";
 import VerifyOTP from "../components/ui/forms/verify-otp-form";
@@ -76,8 +76,6 @@ const Login = () => {
           password: "",
           rememberMe: false,
         });
-
-        //router.push("/");
         router.push("/");
       } else {
         setMessage(data);

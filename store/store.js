@@ -14,7 +14,7 @@ const authPersistConfig = {
 const postsPersistConfig = {
   key: "posts",
   storage,
-  whitelist: ["posts"], // Only persist the `auth` key from the state
+  whitelist: ["posts"], // Only persist the `posts` key from the state
 };
 
 // Wrap the authReducer with persistReducer

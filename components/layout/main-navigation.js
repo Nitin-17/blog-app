@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -18,10 +18,13 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { navigationMenu } from "../../lib/menu";
 import { useSelector } from "react-redux";
+import useAuthTokenValidator from "../auth/useAuthTokenValidator";
 
 const MainNavigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const token = useSelector((state) => state?.user?.auth?.token);
+
+  useAuthTokenValidator();
 
   return (
     <header className="bg-white z-50">
@@ -78,7 +81,7 @@ const MainNavigation = () => {
             )}
           </div>
 
-          {!token || token === null ? (
+          {!token ? (
             <div className="hidden md:flex space-x-4">
               <Link href={`/login`} passHref legacyBehavior>
                 <a

@@ -22,6 +22,7 @@ function IndexPage({ posts }) {
   }, [dispatch, posts]);
 
   const storedPosts = useSelector((state) => state.posts.posts);
+  console.log("stored post", storedPosts);
 
   return (
     <Fragment>
@@ -61,73 +62,59 @@ function IndexPage({ posts }) {
 }
 
 export async function getServerSideProps({ req }) {
-  // Extract token from cookies
   const token = req?.cookies?.token;
+  let userId = null;
 
-  /*   if (!token) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  } */
-
-  let userId;
+  // Step 1: Decode token if available
   if (token) {
     try {
       const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET);
       const { payload } = await jwtVerify(token, SECRET_KEY);
       userId = payload.userId;
     } catch (error) {
-      console.error("JWT verification failed:", error);
-      return {
-        redirect: {
-          destination: "/",
-          permanent: false,
-        },
-      };
+      console.warn("JWT verification failed (ignored):", error?.code);
     }
   }
 
+  // Step 2: Connect to DB
   let client;
   try {
     client = await connectDatabase("admin");
   } catch (error) {
-    console.error("Failed to connect to the database:", error);
-    return { props: { posts: [] } };
+    console.error("Database connection failed:", error);
+    return { props: { posts: [], error: "Database error" } };
   }
 
+  // Step 3: Fetch posts
   try {
-    /* let userPosts = token
-      ? await getPostsByUser(client, "posts", { _id: userId })
-      : await getAllPosts(client, "posts", { _id: -1 }); */
-    let userPosts = await getAllPosts(client, "posts", { _id: -1 });
-    /* if (token) {
-      userPosts = userPosts?.userPosts;
-    } */
+    const allPosts = await getAllPosts(client, "posts", { _id: -1 });
+
+    let formattedPosts = [];
+
+    formattedPosts = allPosts?.map((post) => ({
+      _id: post._id.toString(),
+      content: post.content || "",
+      title: post.title || "No Title",
+      category: post.category || "Random",
+      author: post?.author || "None",
+      image: post.image
+        ? {
+            mime: post.image.mime || null,
+            encoding: post.image.encoding || null,
+            data: post.image.data || null,
+          }
+        : null,
+      date: formatDate(post.date),
+    }));
+
     return {
       props: {
-        posts: userPosts?.map((post) => ({
-          _id: post._id.toString(),
-          content: post.content || "",
-          title: post.title || "No Title",
-          category: post.category || "Random",
-          image: post.image
-            ? {
-                mime: post.image.mime || null,
-                encoding: post.image.encoding || null,
-                data: post.image.data || null,
-              }
-            : null,
-          date: formatDate(post.date),
-        })),
+        posts: formattedPosts,
       },
     };
   } catch (error) {
-    console.error("Failed to fetch posts:", error);
-    client.close();
-    return { props: { posts: [] } };
+    console.error("Post fetching failed:", error);
+    return { props: { posts: [], error: "Post fetch error" } };
   }
 }
 

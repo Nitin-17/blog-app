@@ -6,6 +6,7 @@ import { formatDateSlug } from "../../../lib/helpers";
 
 const FeaturedPost = ({ posts = [] }) => {
   if (!posts.length) return null; // Early return for empty posts array
+  console.log("postsss", posts);
 
   const post = posts[0];
   const slug = post?.title ? slugify(post.title, { lower: true }) : "untitled";
@@ -15,6 +16,7 @@ const FeaturedPost = ({ posts = [] }) => {
   const postDate = post?.date || "Unknown date";
   const postCategory = post?.category || "Uncategorized";
   const postTitle = post?.title || "Untitled";
+  const postAuthor = post?.author || "Katen Doe";
 
   return (
     <div className="md:col-span-3 z-[1]">
@@ -47,7 +49,9 @@ const FeaturedPost = ({ posts = [] }) => {
               {postTitle}
             </Link>
           </h2>
-          <p className="text-sm">Katen Doe • {postDate}</p>
+          <p className="text-sm">
+            {postAuthor} • {postDate}
+          </p>
         </div>
       </div>
     </div>

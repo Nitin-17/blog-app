@@ -80,7 +80,7 @@ const LatestPosts = ({ posts }) => {
                   className="w-8 h-8 rounded-full"
                 />
                 <span className="text-[#fe4f70]">•</span>
-                <span>{article.author || "Unknown Author"}</span>
+                <span>{article?.author || "Unknown Author"}</span>
                 <span className="text-[#fe4f70]">•</span>
                 <span>{article.date || "Unknown Date"}</span>
               </div>

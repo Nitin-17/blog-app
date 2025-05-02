@@ -153,8 +153,13 @@ function ManageUsers(props) {
                       <td className="p-4">{user?.role}</td>
                       <td className="p-4 flex space-x-6">
                         <button
-                          className="text-red-500 hover:text-red-600 w-8"
+                          className={`text-red-500  w-8 ${
+                            user?.role == "admin"
+                              ? "cursor-not-allowed"
+                              : "hover:text-red-600"
+                          }`}
                           onClick={() => handleSubmit(user?._id, user?.role)}
+                          disabled={user?.role == "admin"}
                         >
                           {isEditLoading[user?._id] ? (
                             <Spinner />
@@ -165,7 +170,11 @@ function ManageUsers(props) {
                       </td>
                       <td>
                         <button
-                          className="text-red-500 hover:text-red-600 w-8"
+                          className={`text-red-500 w-8 ${
+                            user?.role == "admin"
+                              ? "cursor-not-allowed"
+                              : "hover:text-red-600"
+                          }`}
                           onClick={() => handleDelete(user?._id)}
                         >
                           {isDeleteLoading[user?._id] ? (
