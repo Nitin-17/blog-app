@@ -1,0 +1,8 @@
+.header {
+  height: 6rem;
+  background-color: var(--color-white-50);
+  padding: 0 10%;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
