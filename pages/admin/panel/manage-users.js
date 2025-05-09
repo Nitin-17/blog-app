@@ -158,7 +158,11 @@ function ManageUsers(props) {
                               ? "cursor-not-allowed"
                               : "hover:text-red-600"
                           }`}
-                          onClick={() => handleSubmit(user?._id, user?.role)}
+                          onClick={
+                            user?.role == "admin"
+                              ? () => {}
+                              : () => handleSubmit(user?._id, user?.role)
+                          }
                           disabled={user?.role == "admin"}
                         >
                           {isEditLoading[user?._id] ? (
@@ -175,7 +179,11 @@ function ManageUsers(props) {
                               ? "cursor-not-allowed"
                               : "hover:text-red-600"
                           }`}
-                          onClick={() => handleDelete(user?._id)}
+                          onClick={
+                            user?.role == "admin"
+                              ? () => {}
+                              : () => handleDelete(user?._id)
+                          }
                         >
                           {isDeleteLoading[user?._id] ? (
                             <Spinner />

@@ -6,6 +6,7 @@ import { encryptPassword } from "../lib/helpers";
 import ErrorModal from "../components/ui/modal/error-modal";
 import SuccessModal from "../components/ui/modal/success-modal";
 import Spinner from "../components/ui/spinner";
+import { redirect } from "next/navigation";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -56,6 +57,7 @@ export default function Signup() {
           confirmPassword: "",
           termsAccepted: false,
         });
+        redirect("/login");
       } else {
         setMessage(data);
         setStatus(false);
