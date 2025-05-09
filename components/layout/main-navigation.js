@@ -24,7 +24,7 @@ const MainNavigation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const token = useSelector((state) => state?.user?.auth?.token);
 
-  useAuthTokenValidator();
+  //useAuthTokenValidator();
 
   return (
     <header className="bg-white z-50">
