@@ -21,7 +21,7 @@ function IndexPage({ posts }) {
     }
   }, [dispatch, posts]);
 
-  const storedPosts = useSelector((state) => state.posts.posts);
+  const storedPosts = useSelector((state) => state?.posts?.posts);
   console.log("stored post", storedPosts);
 
   return (
@@ -93,7 +93,7 @@ export async function getServerSideProps({ req }) {
 
     formattedPosts = allPosts?.map((post) => ({
       _id: post._id.toString(),
-      content: post.content || "",
+      content: post?.content || "",
       title: post.title || "No Title",
       category: post.category || "Random",
       author: post?.author || "None",

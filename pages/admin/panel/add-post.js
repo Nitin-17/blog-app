@@ -192,7 +192,7 @@ export async function getServerSideProps({ req }) {
     try {
       const SECRET_KEY = new TextEncoder().encode(process.env.JWT_SECRET);
       const { payload } = await jwtVerify(token, SECRET_KEY);
-      userId = payload.userId;
+      userId = payload?.userId;
     } catch (error) {
       console.error("JWT verification failed:", error);
       return {
@@ -211,8 +211,8 @@ export async function getServerSideProps({ req }) {
       _id: -1,
     });
     categories = allCategories.map((category) => ({
-      id: category._id.toString(),
-      value: category.category,
+      id: category._id?.toString(),
+      value: category?.category,
     }));
     client.close();
   } catch (error) {
@@ -222,7 +222,7 @@ export async function getServerSideProps({ req }) {
   return {
     props: {
       categories:
-        categories.length > 0
+        categories?.length > 0
           ? categories
           : [{ id: "default", value: "General" }],
       userId,
